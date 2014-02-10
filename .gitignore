@@ -5,7 +5,9 @@
 
 #Build dir
 build/
+bin/*
+!bin/data/
 
 #Xcode project files except for the project file
-*.xcodeproj/
+*.xcodeproj/*
 !*.xcodeproj/project.pbxproj
