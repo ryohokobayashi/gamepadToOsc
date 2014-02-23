@@ -1,0 +1,15 @@
+<Widget>
+    <Kind>12</Kind>
+    <Name>IP_ADDRESS</Name>
+    <Value>127.0.0.1</Value>
+</Widget>
+<Widget>
+    <Kind>12</Kind>
+    <Name>PORT</Name>
+    <Value>12345</Value>
+</Widget>
+<Widget>
+    <Kind>12</Kind>
+    <Name>CONTROLLER</Name>
+    <Value>1</Value>
+</Widget>
