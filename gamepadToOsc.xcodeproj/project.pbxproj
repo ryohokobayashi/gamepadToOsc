@@ -1092,7 +1092,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_LIBS)",
-					ofxGamepad/libs/wgois/lib/osx/libOIS.a,
+					../../../addons/ofxGamepad/libs/wgois/lib/osx/libOIS.a,
 				);
 				SDKROOT = macosx;
 			};
@@ -1154,7 +1154,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_LIBS)",
-					ofxGamepad/libs/wgois/lib/osx/libOIS.a,
+					../../../addons/ofxGamepad/libs/wgois/lib/osx/libOIS.a,
 				);
 				SDKROOT = macosx;
 			};
@@ -1240,10 +1240,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/linux64,
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/osx,
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/vs2008,
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/vs2010,
+					../../../addons/ofxGamepad/libs/wgois/lib/linux64,
+					../../../addons/ofxGamepad/libs/wgois/lib/osx,
+					../../../addons/ofxGamepad/libs/wgois/lib/vs2008,
+					../../../addons/ofxGamepad/libs/wgois/lib/vs2010,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
 				WRAPPER_EXTENSION = app;
@@ -1329,10 +1329,10 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/linux64,
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/osx,
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/vs2008,
-					/Users/ryoho/Product/of_v0.8.0_osx_release/apps/myApps/gamepadToOsc/ofxGamepad/libs/wgois/lib/vs2010,
+					../../../addons/ofxGamepad/libs/wgois/lib/linux64,
+					../../../addons/ofxGamepad/libs/wgois/lib/osx,
+					../../../addons/ofxGamepad/libs/wgois/lib/vs2008,
+					../../../addons/ofxGamepad/libs/wgois/lib/vs2010,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
