@@ -1092,7 +1092,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_LIBS)",
-					../../../addons/ofxGamepad/libs/wgois/lib/osx/libOIS.a,
+					ofxGamepad/libs/wgois/lib/osx/libOIS.a,
 				);
 				SDKROOT = macosx;
 			};
@@ -1154,7 +1154,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_LIBS)",
-					../../../addons/ofxGamepad/libs/wgois/lib/osx/libOIS.a,
+					ofxGamepad/libs/wgois/lib/osx/libOIS.a,
 				);
 				SDKROOT = macosx;
 			};
