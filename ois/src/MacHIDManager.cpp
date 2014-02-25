@@ -214,11 +214,11 @@ HidInfo* MacHIDManager::enumerateDeviceProperties(CFMutableDictionaryRef propert
 	
 	CFStringRef str = getDictionaryItemAsRef<CFStringRef>(propertyMap, kIOHIDManufacturerKey);
 	if (str)
-		info->vendor = CFStringGetCStringPtr(str, CFStringGetSystemEncoding());
+		info->vendor = CFStringGetCStringPtr(str, CFStringGetFastestEncoding(str));
 	
 	str = getDictionaryItemAsRef<CFStringRef>(propertyMap, kIOHIDProductKey);
 	if (str)
-		info->productKey = CFStringGetCStringPtr(str, CFStringGetSystemEncoding());
+		info->productKey = CFStringGetCStringPtr(str, CFStringGetFastestEncoding(str));
 	
 	info->combinedKey = info->vendor + " " + info->productKey;
 	
