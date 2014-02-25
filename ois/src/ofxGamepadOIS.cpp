@@ -35,7 +35,7 @@ void ofxGamepadOIS::updateJoystick(OIS::JoyStick* js){
 	setName(joystick->vendor());
 	joystick->setEventCallback(this);
 	id=joystick->getID();
-	
+	/*
 	forceFeedback = (OIS::ForceFeedback*)joystick->queryInterface( OIS::Interface::ForceFeedback );
 	if( forceFeedback )
 	{
@@ -69,6 +69,7 @@ void ofxGamepadOIS::updateJoystick(OIS::JoyStick* js){
 		
 		bFFFound = false;
 	}
+ */
 }
 
 void ofxGamepadOIS::update(){
@@ -78,11 +79,11 @@ void ofxGamepadOIS::update(){
 }
 
 bool ofxGamepadOIS::buttonPressed( const OIS::JoyStickEvent &arg, int button ){
-	buttonChanged(button, 1);
+	buttonChanged(button, 0);
 	return true;
 };
 bool ofxGamepadOIS::buttonReleased( const OIS::JoyStickEvent &arg, int button ){
-	buttonChanged(button, 0);
+	buttonChanged(button, 1);
 	return true;
 };
 bool ofxGamepadOIS::axisMoved( const OIS::JoyStickEvent &arg, int axis ){

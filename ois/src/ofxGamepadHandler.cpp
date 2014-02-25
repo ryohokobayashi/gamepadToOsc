@@ -1,6 +1,5 @@
 #include "ofxGamepadHandler.h"
 
-#ifdef USE_OIS
 using namespace OIS;
 InputManager* oisInputManager;
 class tempPad {
@@ -12,7 +11,6 @@ public:
 	JoyStick* stick;
 	bool handled;
 };
-#endif
 
 ofxGamepadHandler* ofxGamepadHandler::singleton;
 bool ofxGamepadHandler::hasSingleton = false;
@@ -63,7 +61,6 @@ void ofxGamepadHandler::threadedFunction() {
 }
 
 void ofxGamepadHandler::updatePadList() {
-#ifdef USE_OIS
 	try {
 		
 		ParamList pl;
@@ -115,23 +112,6 @@ void ofxGamepadHandler::updatePadList() {
 		msg << "\nException raised on joystick creation: " << ex.eText << std::endl;
 		ofLog(OF_LOG_ERROR, msg.str());
 	}
-#elif defined(TARGET_LINUX)
-	//check for joysticks
-	ofFile file;
-	for(int i=0; i<32; i++) {
-		file.open("/dev/input/js"+ofToString(i));
-		if(file.exists() && find(activeIDs.begin(), activeIDs.end(), i) == activeIDs.end()) {
-			try {
-				gamepadsNew.push_back(ofPtr<ofxGamepad>(new ofxGamepadLinux(file.getAbsolutePath())));
-				activeIDs.push_back(i);
-			} catch(std::exception& err) {
-				ofLog(OF_LOG_ERROR, "could not create new gamepad");
-			}
-		}
-	}
-#else
-	ofLog(OF_LOG_ERROR, "ofxGamepad says: sorry, looks like your system is not supported...");
-#endif
 }
 
 void ofxGamepadHandler::update(ofEventArgs &args) {
