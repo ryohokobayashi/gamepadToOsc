@@ -215,7 +215,7 @@ void testApp::setupGui() {
     
     // canvas size
     gui->setWidth(660);
-    gui->setHeight(800);
+    gui->setHeight(700);
     
     gui->setPadding(10); // padding
     gui->setDrawPadding(false);
@@ -254,7 +254,6 @@ void testApp::setupGui() {
     gui->addTextInput("CONTROLLER", "1")->setAutoClear(false); // text input
     
     gui->addSpacer();
-    gui->setWidgetSpacing(90);
     
     gui->addSpacer(0, 10);
     gui->addSpacer(30, 0);
