@@ -197,15 +197,15 @@ void testApp::setupGui() {
     gui = new ofxUICanvas();
     
     // canvas size
-    gui->setWidth(600);
-    gui->setHeight(780);
+    gui->setWidth(660);
+    gui->setHeight(800);
     
     gui->setPadding(10); // padding
     gui->setDrawPadding(false);
     
     // set font size
     gui->setFontSize(OFX_UI_FONT_SMALL, 20, OFX_UI_FONT_RESOLUTION);
-    gui->setFontSize(OFX_UI_FONT_MEDIUM, 30, OFX_UI_FONT_RESOLUTION);
+    gui->setFontSize(OFX_UI_FONT_MEDIUM, 40, OFX_UI_FONT_RESOLUTION);
     gui->setFontSize(OFX_UI_FONT_LARGE, 50, OFX_UI_FONT_RESOLUTION);
     
     // set colors
@@ -219,7 +219,7 @@ void testApp::setupGui() {
     gui->setUIColors( cb, co, coh, cf, cfh, cp, cpo );
     
     gui->addLabel("IP Address", OFX_UI_FONT_SMALL); // label
-    gui->setWidgetFontSize(OFX_UI_FONT_LARGE); // set font size
+    gui->setWidgetFontSize(OFX_UI_FONT_MEDIUM); // set font size
     gui->addTextInput("IP_ADDRESS", "127.0.0.1")->setAutoClear(false); // text input
     
     gui->addSpacer();
@@ -235,7 +235,7 @@ void testApp::setupGui() {
     gui->addTextInput("CONTROLLER", "1")->setAutoClear(false); // text input
     
     gui->addSpacer();
-    gui->setWidgetSpacing(60);
+    gui->setWidgetSpacing(90);
     
     gui->addMultiImageButton("LEFT_BUTTON", "left_button.png", false, 80, 80);
     gui->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
