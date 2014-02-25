@@ -97,7 +97,7 @@ void testApp::axisChanged(ofxGamepadAxisEvent& e)
             button = (ofxUIMultiImageButton *) gui->getWidget("RIGHT_BUTTON");
             button->setState(OFX_UI_STATE_NORMAL);
             button->stateChange();
-        } else if (e.value < 0) {
+        } else if (e.value < -0.9) {
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("LEFT_BUTTON");
             button->setState(OFX_UI_STATE_DOWN);
             button->stateChange();
@@ -105,8 +105,22 @@ void testApp::axisChanged(ofxGamepadAxisEvent& e)
             // GUI event
             ofxUIEventArgs event = ofxUIEventArgs(button);
             guiEvent(event);
-        } else if (e.value > 0) {
+        } else if (e.value > 0.9) {
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("RIGHT_BUTTON");
+            button->setState(OFX_UI_STATE_DOWN);
+            button->stateChange();
+            
+            // GUI event
+            ofxUIEventArgs event = ofxUIEventArgs(button);
+            guiEvent(event);
+        }
+    } else if (e.axis == 1) {
+        if (e.value == 0) {
+            ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("DOWN_BUTTON");
+            button->setState(OFX_UI_STATE_NORMAL);
+            button->stateChange();
+        } else if (e.value > 0.9) {
+            ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("DOWN_BUTTON");
             button->setState(OFX_UI_STATE_DOWN);
             button->stateChange();
             
@@ -119,21 +133,6 @@ void testApp::axisChanged(ofxGamepadAxisEvent& e)
 
 void testApp::buttonPressed(ofxGamepadButtonEvent& e)
 {
-    // RELEASED (revise compatibility for iBuffalo)
-	if (e.button == 0) { // A button
-        ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("A_BUTTON");
-        button->setState(OFX_UI_STATE_NORMAL);
-        button->stateChange();
-    } else if (e.button == 1) { // B button
-        ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("B_BUTTON");
-        button->setState(OFX_UI_STATE_NORMAL);
-        button->stateChange();
-    }
-}
-
-void testApp::buttonReleased(ofxGamepadButtonEvent& e)
-{
-    // PRESSED (revise compatibility for iBuffalo)
     if (e.button == 0) { // A button
         ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("A_BUTTON");
         button->setState(OFX_UI_STATE_DOWN);
@@ -151,7 +150,19 @@ void testApp::buttonReleased(ofxGamepadButtonEvent& e)
         ofxUIEventArgs event = ofxUIEventArgs(button);
         guiEvent(event);
     }
+}
 
+void testApp::buttonReleased(ofxGamepadButtonEvent& e)
+{
+	if (e.button == 0) { // A button
+        ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("A_BUTTON");
+        button->setState(OFX_UI_STATE_NORMAL);
+        button->stateChange();
+    } else if (e.button == 1) { // B button
+        ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("B_BUTTON");
+        button->setState(OFX_UI_STATE_NORMAL);
+        button->stateChange();
+    }
 }
 
 void testApp::guiEvent(ofxUIEventArgs &e) {
@@ -177,6 +188,12 @@ void testApp::guiEvent(ofxUIEventArgs &e) {
         oscMessage.setAddress("/gamepad");
         oscMessage.addIntArg(controllerNumber);
         oscMessage.addIntArg(2); // right button
+        oscSender.sendMessage(oscMessage);
+    } else if (e.getName() == "DOWN_BUTTON") {
+        ofxOscMessage oscMessage;
+        oscMessage.setAddress("/gamepad");
+        oscMessage.addIntArg(controllerNumber);
+        oscMessage.addIntArg(5); // down button
         oscSender.sendMessage(oscMessage);
     } else if (e.getName() == "A_BUTTON") {
         ofxOscMessage oscMessage;
@@ -218,6 +235,8 @@ void testApp::setupGui() {
     ofxUIColor cpo = ofxUIColor( 0, 0, 0, 0 );
     gui->setUIColors( cb, co, coh, cf, cfh, cp, cpo );
     
+    gui->setWidgetPosition(OFX_UI_WIDGET_POSITION_DOWN);
+    
     gui->addLabel("IP Address", OFX_UI_FONT_SMALL); // label
     gui->setWidgetFontSize(OFX_UI_FONT_MEDIUM); // set font size
     gui->addTextInput("IP_ADDRESS", "127.0.0.1")->setAutoClear(false); // text input
@@ -237,9 +256,16 @@ void testApp::setupGui() {
     gui->addSpacer();
     gui->setWidgetSpacing(90);
     
-    gui->addMultiImageButton("LEFT_BUTTON", "left_button.png", false, 80, 80);
+    gui->addSpacer(0, 10);
+    gui->addSpacer(30, 0);
+    
     gui->setWidgetPosition(OFX_UI_WIDGET_POSITION_RIGHT);
-    gui->setWidgetSpacing(40); // space between buttons
+    
+    gui->addMultiImageButton("LEFT_BUTTON", "left_button.png", false, 80, 80);
+    
+    gui->setWidgetSpacing(30); // space between buttons
+    
+    gui->addMultiImageButton("DOWN_BUTTON", "down_button.png", false, 80, 80);
     gui->addMultiImageButton("RIGHT_BUTTON", "right_button.png", false, 80, 80);
     gui->addMultiImageButton("B_BUTTON", "b_button.png", false, 80, 80);
     gui->addMultiImageButton("A_BUTTON", "a_button.png", false, 80, 80);
