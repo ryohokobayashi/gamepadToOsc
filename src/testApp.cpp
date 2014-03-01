@@ -24,6 +24,11 @@ void testApp::setup(){
     
     oscSender.setup(ipAddress, sendPort);
     
+    buttonState = new bool[5];
+    for (int i = 0; i < 5; i++) {
+        buttonState[i] = false;
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -39,6 +44,7 @@ void testApp::draw(){
 void testApp::exit() {
     gui->saveSettings("settings.xml");
     delete gui;
+    delete buttonState;
 }
 
 //--------------------------------------------------------------
@@ -93,14 +99,25 @@ void testApp::axisChanged(ofxGamepadAxisEvent& e)
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("LEFT_BUTTON");
             button->setState(OFX_UI_STATE_NORMAL);
             button->stateChange();
+            buttonState[0] = false; // left button released
+            
+            // GUI event
+            ofxUIEventArgs event = ofxUIEventArgs(button);
+            guiEvent(event);
             
             button = (ofxUIMultiImageButton *) gui->getWidget("RIGHT_BUTTON");
             button->setState(OFX_UI_STATE_NORMAL);
             button->stateChange();
+            buttonState[1] = false; // right button released
+            
+            // GUI event
+            event = ofxUIEventArgs(button);
+            guiEvent(event);
         } else if (e.value < -0.9) {
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("LEFT_BUTTON");
             button->setState(OFX_UI_STATE_DOWN);
             button->stateChange();
+            buttonState[0] = true; // left button pressed
             
             // GUI event
             ofxUIEventArgs event = ofxUIEventArgs(button);
@@ -109,6 +126,7 @@ void testApp::axisChanged(ofxGamepadAxisEvent& e)
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("RIGHT_BUTTON");
             button->setState(OFX_UI_STATE_DOWN);
             button->stateChange();
+            buttonState[1] = true; // right button pressed
             
             // GUI event
             ofxUIEventArgs event = ofxUIEventArgs(button);
@@ -119,10 +137,16 @@ void testApp::axisChanged(ofxGamepadAxisEvent& e)
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("DOWN_BUTTON");
             button->setState(OFX_UI_STATE_NORMAL);
             button->stateChange();
+            buttonState[4] = false; // down button released
+            
+            // GUI event
+            ofxUIEventArgs event = ofxUIEventArgs(button);
+            guiEvent(event);
         } else if (e.value > 0.9) {
             ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("DOWN_BUTTON");
             button->setState(OFX_UI_STATE_DOWN);
             button->stateChange();
+            buttonState[4] = true; // down button pressed
             
             // GUI event
             ofxUIEventArgs event = ofxUIEventArgs(button);
@@ -137,6 +161,7 @@ void testApp::buttonPressed(ofxGamepadButtonEvent& e)
         ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("A_BUTTON");
         button->setState(OFX_UI_STATE_DOWN);
         button->stateChange();
+        buttonState[3] = true; // A button pressed
         
         // GUI event
         ofxUIEventArgs event = ofxUIEventArgs(button);
@@ -145,6 +170,7 @@ void testApp::buttonPressed(ofxGamepadButtonEvent& e)
         ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("B_BUTTON");
         button->setState(OFX_UI_STATE_DOWN);
         button->stateChange();
+        buttonState[2] = true; // B button pressed
         
         // GUI event
         ofxUIEventArgs event = ofxUIEventArgs(button);
@@ -158,10 +184,20 @@ void testApp::buttonReleased(ofxGamepadButtonEvent& e)
         ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("A_BUTTON");
         button->setState(OFX_UI_STATE_NORMAL);
         button->stateChange();
+        buttonState[3] = false; // A button released
+        
+        // GUI event
+        ofxUIEventArgs event = ofxUIEventArgs(button);
+        guiEvent(event);
     } else if (e.button == 1) { // B button
         ofxUIMultiImageButton *button = (ofxUIMultiImageButton *) gui->getWidget("B_BUTTON");
         button->setState(OFX_UI_STATE_NORMAL);
         button->stateChange();
+        buttonState[2] = false; // B button released
+        
+        // GUI event
+        ofxUIEventArgs event = ofxUIEventArgs(button);
+        guiEvent(event);
     }
 }
 
@@ -181,31 +217,36 @@ void testApp::guiEvent(ofxUIEventArgs &e) {
         ofxOscMessage oscMessage;
         oscMessage.setAddress("/gamepad");
         oscMessage.addIntArg(controllerNumber);
-        oscMessage.addIntArg(1); // left button
+        oscMessage.addIntArg(0); // left button
+        oscMessage.addIntArg(buttonState[0] ? 1 : 0);
         oscSender.sendMessage(oscMessage);
     } else if (e.getName() == "RIGHT_BUTTON") {
         ofxOscMessage oscMessage;
         oscMessage.setAddress("/gamepad");
         oscMessage.addIntArg(controllerNumber);
-        oscMessage.addIntArg(2); // right button
+        oscMessage.addIntArg(1); // right button
+        oscMessage.addIntArg(buttonState[1] ? 1 : 0);
         oscSender.sendMessage(oscMessage);
     } else if (e.getName() == "DOWN_BUTTON") {
         ofxOscMessage oscMessage;
         oscMessage.setAddress("/gamepad");
         oscMessage.addIntArg(controllerNumber);
-        oscMessage.addIntArg(5); // down button
+        oscMessage.addIntArg(4); // down button
+        oscMessage.addIntArg(buttonState[4] ? 1 : 0);
         oscSender.sendMessage(oscMessage);
     } else if (e.getName() == "A_BUTTON") {
         ofxOscMessage oscMessage;
         oscMessage.setAddress("/gamepad");
         oscMessage.addIntArg(controllerNumber);
-        oscMessage.addIntArg(4); // A button
+        oscMessage.addIntArg(3); // A button
+        oscMessage.addIntArg(buttonState[3] ? 1 : 0);
         oscSender.sendMessage(oscMessage);
     } else if (e.getName() == "B_BUTTON") {
         ofxOscMessage oscMessage;
         oscMessage.setAddress("/gamepad");
         oscMessage.addIntArg(controllerNumber);
-        oscMessage.addIntArg(3); // B button
+        oscMessage.addIntArg(2); // B button
+        oscMessage.addIntArg(buttonState[2] ? 1 : 0);
         oscSender.sendMessage(oscMessage);
     }
 }
@@ -251,7 +292,7 @@ void testApp::setupGui() {
     
     gui->addLabel("Controller Number", OFX_UI_FONT_SMALL); // label
     gui->setWidgetFontSize(OFX_UI_FONT_LARGE); // set font size
-    gui->addTextInput("CONTROLLER", "1")->setAutoClear(false); // text input
+    gui->addTextInput("CONTROLLER", "0")->setAutoClear(false); // text input
     
     gui->addSpacer();
     
