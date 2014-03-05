@@ -175,6 +175,10 @@ void testApp::buttonPressed(ofxGamepadButtonEvent& e)
         // GUI event
         ofxUIEventArgs event = ofxUIEventArgs(button);
         guiEvent(event);
+    } else if (e.button == 7) { // start button
+        ofxOscMessage oscMessage;
+        oscMessage.setAddress("/gamestart");
+        oscSender.sendMessage(oscMessage);
     }
 }
 
