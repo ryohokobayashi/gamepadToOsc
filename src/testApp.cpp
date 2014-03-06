@@ -179,6 +179,10 @@ void testApp::buttonPressed(ofxGamepadButtonEvent& e)
         ofxOscMessage oscMessage;
         oscMessage.setAddress("/gamestart");
         oscSender.sendMessage(oscMessage);
+    } else if (e.button == 6) { // select button
+        ofxOscMessage oscMessage;
+        oscMessage.setAddress("/gamestop");
+        oscSender.sendMessage(oscMessage);
     }
 }
 
